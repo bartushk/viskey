@@ -31,29 +31,14 @@ impl KeyLogger for LinuxLogger {
         let send_clone = self.sender.clone();
         thread::spawn( move || {
             send_clone.send("Logging started.").unwrap();
-            for _ in 0..10 {
-                //TODO: Actually log keys and send them up the channel.
-                thread::sleep_ms(1000);
-            }
+            //TODO: Actually log keys and send them up the channel.
         });
     }
 }
 
-fn timer_periodic(ms: u32) -> mpsc::Receiver<()> {
-    let (tx, rx) = mpsc::channel();
-    thread::spawn(move || {
-        thread::sleep_ms(ms);
-        tx.send(());
-    });
-    rx
-}
-
-
-
-
 
 #[test]
-fn LinuxKeyLogger_start_logging_LoggingStarted() {
+fn start_logging_message_received() {
     timeout_ms(|| {
         let (logger, rx) =  LinuxLoggerBuilder::new();
         logger.start_logging();
