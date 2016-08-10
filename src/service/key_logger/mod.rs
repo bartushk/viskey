@@ -15,6 +15,7 @@
 
 pub mod linux_key_logger;
 use std::sync::mpsc;
+use std::io::Error;
 
 /// Describes the abstracted functionality of a keylogger.
 ///
@@ -27,7 +28,7 @@ use std::sync::mpsc;
 /// }
 ///
 pub trait KeyLogger {
-    fn start_logging(&self);
+    fn start_logging(&self) -> Vec<Result<&str, Error>>;
 }
 
 /// Trait for describing the construction of a logger.
