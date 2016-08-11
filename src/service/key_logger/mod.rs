@@ -17,6 +17,20 @@ pub mod linux_key_logger;
 use std::sync::mpsc;
 use std::io::Error;
 
+#[derive(Debug, PartialEq)]
+pub enum KeyAction {
+    Up,
+    Down,
+    Held,
+    Unknown,
+}
+
+#[derive(Debug)]
+pub struct KeyPress {
+    action: KeyAction,
+    value: &'static str,
+}
+
 /// Describes the abstracted functionality of a keylogger.
 ///
 /// #Examples
@@ -44,5 +58,5 @@ pub trait KeyLogger {
 /// }
 ///
 pub trait LoggerBuilder {
-    fn new() -> (Box<KeyLogger>, mpsc::Receiver<&'static str>);
+    fn new() -> (Box<KeyLogger>, mpsc::Receiver<KeyPress>);
 }
